@@ -7,14 +7,14 @@ Criando container: `docker run -it --name PROMETHEUS ubuntu bash`
 Criando usuario no ubuntu: `useradd --no-create-home --shell /bin/false prometheus`
 
 Criando diretorios:
-mkdir /etc/prometheus
-mkdir /var/lib/prometheus
+`mkdir /etc/prometheus`
+`mkdir /var/lib/prometheus`
 
 Dando acesso ao usuario e grupo:
-chown -R prometheus:prometheus /etc/prometheus
-chown -R prometheus:prometheus /var/lib/prometheus
+`chown -R prometheus:prometheus /etc/prometheus`
+`chown -R prometheus:prometheus /var/lib/prometheus`
 
-Baixar o Prometheus: https://github.com/prometheus/prometheus/releases/download/v2.51.0/prometheus-2.51.0.linux-amd64.tar.gz
+Baixar o Prometheus: `https://github.com/prometheus/prometheus/releases/download/v2.51.0/prometheus-2.51.0.linux-amd64.tar.gz`
 
 Pegar o shar256 e comparar: `sha256sum prometheus-2.51.0.linux-amd64.tar.gz`
 

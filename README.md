@@ -5,9 +5,9 @@
 </div>
 
 ### :memo: Aulas
-- [ ] Introdução
-- [ ] Como funciona o Prometheus
-- [ ] Instalando Prometheus
+- [x] Introdução
+- [x] Como funciona o Prometheus
+- [x] Instalando Prometheus
 - [ ] Protegendo Prometheus
 - [ ] Instalando Node Exporter
 - [ ] Configurando Prometheus para varrer metrica
@@ -21,4 +21,8 @@
 
  <ul>
     <li>Visual Studio Code</li>
+    <li>Docker 25.0.3</li>
+    <li>Prometheus 2.51.0</li>
+    <li>WSL 2</li>
+    <li>Ubuntu 22.04</li>
 </ul>

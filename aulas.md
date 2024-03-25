@@ -117,8 +117,7 @@ location / {
 }
 ```
 
-Criar um link desse arquivo: `ln -s /etc/nginx/sites-available/prometheus  /etc/nginx/sites-enabled/prom`
-etheus`
+Criar um link desse arquivo: `ln -s /etc/nginx/sites-available/prometheus  /etc/nginx/sites-enabled/prometheus`
 
 Verificar a sintaxe do nginx: `nginx -t`
 
@@ -130,18 +129,18 @@ OBS: Por enquanto somente funcionou no WSL Ubuntu, no docker o serviço do nginx
 
 # Instalando Node Exporter
 
-Criar novo usuario: `useradd --no-create-home --shell /bin/false node_exporter`
+Criar novo usuario: `sudo useradd --no-create-home --shell /bin/false node_exporter`
 
 Baixando o node exporter: 
 `wget https://github.com/prometheus/node_exporter/releases/download/v1.7.0/node_exporter-1.7.0.linux-amd64.tar.gz`
 
-Descompactando o Node Exporter: `tar xvzf node_exporter-1.7.0.linux-amd64.tar.gz`
+Descompactando o Node Exporter: `sudo tar xvzf node_exporter-1.7.0.linux-amd64.tar.gz`
 
-Copiando o binário: `cp node_exporter /usr/local/bin/`
+Copiando o binário: `sudo cp node_exporter /usr/local/bin/`
 
-Permissões: `chown -R node_exporter:node_exporter /usr/local/bin/node_exporter`
+Permissões: `sudo chown -R node_exporter:node_exporter /usr/local/bin/node_exporter`
 
-Criando o arquivo de service: `vim /etc/systemd/system/node_exporter.service`
+Criando o arquivo de service: `sudo vim /etc/systemd/system/node_exporter.service`
 ```
 [Unit]
 Description=Node Exporter
@@ -158,7 +157,7 @@ ExecStart=/usr/local/bin/node_exporter
 WantedBy=multi-user.target
 ```
 
-Iniciar o serviço: `systemctl start node_exporter`
+Iniciar o serviço: `sudo systemctl start node_exporter`
 
 Consultar o serviço: `sudo systemctl status node_exporter`
 
@@ -166,18 +165,17 @@ Endereço das metricas: `curl localhost:9100/metrics`
 
 # Configurando Prometheus para varrer metrica
 
-Editar o arquivo prometheus.yml, adicionar os dados abaixo:
+Editar o arquivo prometheus.yml, adicionar os dados abaixo: `sudo vim /etc/prometheus/prometheus.yml`
 ```
-vim /etc/prometheus/prometheus.yml
   - job_name: 'node_exporter'
     scrape_interval: 5s
     static_configs:
       - targets: ['localhost:9100']
 ```
 
-Reiniciar o servico: `systemctl restart prometheus`
+Reiniciar o servico: `sudo systemctl restart prometheus`
 
-Consultar o status: `systemctl status prometheus`
+Consultar o status: `sudo systemctl status prometheus`
 
 # Instalando Grafana
 
@@ -196,3 +194,14 @@ Consultar o status: `systemctl status prometheus`
 Iniciar o servico: `sudo systemctl start grafana-server`
 
 Consultar o status: `sudo systemctl status grafana-server`
+
+# Integrando Prometheus e Grafana
+
+Usuario e senha padrão: `admin` e `admin`
+
+Adicionar um data source:
+```
+prometheus
+Connection: http://localhost:9090
+Save & test
+```

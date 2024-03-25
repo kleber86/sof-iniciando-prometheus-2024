@@ -11,8 +11,8 @@
 - [x] Protegendo Prometheus
 - [x] Instalando Node Exporter
 - [x] Configurando Prometheus para varrer metrica
-- [ ] Instalando Grafana
-- [ ] Integrando Prometheus e Grafana
+- [x] Instalando Grafana
+- [x] Integrando Prometheus e Grafana
 - [ ] Instalando Prometheus usando Docker
 - [ ] Instalando Grafana usando Docker
 - [ ] Configurando Node Exporter usando docker
@@ -25,4 +25,8 @@
     <li>Prometheus 2.51.0</li>
     <li>WSL 2</li>
     <li>Ubuntu 22.04</li>
+    <li>Nginx</li>
+    <li>Node Exporter 1.7.0</li>
+    <li>Grafana 10.4.1</li>
+
 </ul>

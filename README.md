@@ -8,9 +8,9 @@
 - [x] Introdução
 - [x] Como funciona o Prometheus
 - [x] Instalando Prometheus
-- [ ] Protegendo Prometheus
-- [ ] Instalando Node Exporter
-- [ ] Configurando Prometheus para varrer metrica
+- [x] Protegendo Prometheus
+- [x] Instalando Node Exporter
+- [x] Configurando Prometheus para varrer metrica
 - [ ] Instalando Grafana
 - [ ] Integrando Prometheus e Grafana
 - [ ] Instalando Prometheus usando Docker

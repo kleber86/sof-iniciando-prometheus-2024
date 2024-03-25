@@ -81,3 +81,118 @@ Permissões:
 Iniciar o serviço do Prometheus: `systemctl start prometheus`
 
 Consultar o status do serviço: `systemctl status prometheus`
+
+# Protegendo o Prometheus
+
+Instalando um proxy-reverso: `apt-get install nginx -y`
+
+Armazenar senha e criptografada: `apt-get install apache2-utils -y`
+
+Cria um arquivo que armazena um usuario e senha: `htpasswd -c /etc/nginx/.htpasswd son`
+
+Local desse arquivo: `cd /etc/nginx/.htpasswd`
+
+Criar um v-host prometheus: `/etc/nginx/sites-available`
+
+Criar a copia do default: `cp default prometheus`
+
+Remover o default dos dois diretorios: `rm -rf default`
+```
+/etc/nginx/sites-available
+/etc/nginx/sites-enabled
+```
+
+Configurar o arquivo para solicitar autenticação: `vim /etc/nginx/sites-available/prometheus`
+```
+location / {
+  # deny all;
+  auth_basic "Prometheus Server Auth";
+  auth_basic_user_file /etc/nginx/.htpasswd;
+  proxy_pass http://192.168.237.113:9090;
+  proxy_http_version 1.1;
+  proxy_set_header Upgrade $http_upgrade;
+  proxy_set_header Connection 'upgrade';
+  proxy_set_header Host $host;
+  proxy_cache_bypass $http_upgrade;
+}
+```
+
+Criar um link desse arquivo: `ln -s /etc/nginx/sites-available/prometheus  /etc/nginx/sites-enabled/prom`
+etheus`
+
+Verificar a sintaxe do nginx: `nginx -t`
+
+Reiniciar o serviço: `systemctl restart nginx`
+
+Consultar o status do serviço: `systemctl status nginx`
+
+OBS: Por enquanto somente funcionou no WSL Ubuntu, no docker o serviço do nginx não iniciou.
+
+# Instalando Node Exporter
+
+Criar novo usuario: `useradd --no-create-home --shell /bin/false node_exporter`
+
+Baixando o node exporter: 
+`wget https://github.com/prometheus/node_exporter/releases/download/v1.7.0/node_exporter-1.7.0.linux-amd64.tar.gz`
+
+Descompactando o Node Exporter: `tar xvzf node_exporter-1.7.0.linux-amd64.tar.gz`
+
+Copiando o binário: `cp node_exporter /usr/local/bin/`
+
+Permissões: `chown -R node_exporter:node_exporter /usr/local/bin/node_exporter`
+
+Criando o arquivo de service: `vim /etc/systemd/system/node_exporter.service`
+```
+[Unit]
+Description=Node Exporter
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+User=node_exporter
+Group=node_exporter
+Type=simple
+ExecStart=/usr/local/bin/node_exporter 
+
+[Install]
+WantedBy=multi-user.target
+```
+
+Iniciar o serviço: `systemctl start node_exporter`
+
+Consultar o serviço: `sudo systemctl status node_exporter`
+
+Endereço das metricas: `curl localhost:9100/metrics`
+
+# Configurando Prometheus para varrer metrica
+
+Editar o arquivo prometheus.yml, adicionar os dados abaixo:
+```
+vim /etc/prometheus/prometheus.yml
+  - job_name: 'node_exporter'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['localhost:9100']
+```
+
+Reiniciar o servico: `systemctl restart prometheus`
+
+Consultar o status: `systemctl status prometheus`
+
+# Instalando Grafana
+
+`sudo apt-get install -y apt-transport-https software-properties-common wget`
+
+`sudo mkdir -p /etc/apt/keyrings/ wget -q -O - https://apt.grafana.com/gpg.key | gpg --dearmor | sudo tee /etc/apt/keyrings/grafana.gpg > /dev/null`
+
+`echo "deb [signed-by=/etc/apt/keyrings/grafana.gpg] https://apt.grafana.com stable main" | sudo tee -a /etc/apt/sources.list.d/grafana.list`
+
+`echo "deb [signed-by=/etc/apt/keyrings/grafana.gpg] https://apt.grafana.com beta main" | sudo tee -a /etc/apt/sources.list.d/grafana.list`
+
+`echo "deb [signed-by=/etc/apt/keyrings/grafana.gpg] https://apt.grafana.com beta main" | sudo tee -a /etc/apt/sources.list.d/grafana.list`
+
+`sudo apt-get install grafana`
+
+Iniciar o servico: `sudo systemctl start grafana-server`
+
+Consultar o status: `sudo systemctl status grafana-server`

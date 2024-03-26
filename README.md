@@ -13,9 +13,9 @@
 - [x] Configurando Prometheus para varrer metrica
 - [x] Instalando Grafana
 - [x] Integrando Prometheus e Grafana
-- [ ] Instalando Prometheus usando Docker
-- [ ] Instalando Grafana usando Docker
-- [ ] Configurando Node Exporter usando docker
+- [x] Instalando Prometheus usando Docker
+- [x] Instalando Grafana usando Docker
+- [x] Configurando Node Exporter usando docker
 
 ### :hammer: Tecnologias
 

@@ -125,8 +125,6 @@ Reiniciar o serviço: `systemctl restart nginx`
 
 Consultar o status do serviço: `systemctl status nginx`
 
-OBS: Por enquanto somente funcionou no WSL Ubuntu, no docker o serviço do nginx não iniciou.
-
 # Instalando Node Exporter
 
 Criar novo usuario: `sudo useradd --no-create-home --shell /bin/false node_exporter`
